@@ -195,11 +195,16 @@ npm run dev
 
 ```json
 {
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@shared/*": ["../server/shared/*"]
+      "@/*": ["./src/*"],
+      "@shared/*": ["../server/shared/*"],
     }
   }
 }
@@ -209,12 +214,11 @@ npm run dev
 
 ```json
 {
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@shared/*": ["../server/shared/*"]
-    }
+  /** Inside the compilerOptions */
+  "baseUrl": "./",
+  "paths": {
+    "@/*": ["src/*"],
+    "@shared/*": ["../server/shared/*"]
   }
 }
 ```
@@ -294,6 +298,9 @@ export default defineConfig({
 ## Add a route to the backend
 
 1. add the following code to the `frontend/src/App.tsx` file
+
+> if you have a route in the backend like `/api/v1/user/all` you can fetch the users in the frontend like or Refer to my [NodeJS-Fullstack-Boilerplate](https://github.com/kavinda-100/NodeJS-Fullstack-Boilerplate) for the backend code.
+
 
 ```typescript
 import { useEffect, useState } from 'react';
