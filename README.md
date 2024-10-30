@@ -48,8 +48,8 @@ npm install -D typescript ts-node nodemon @types/express @types/node
 ```
 
 > [!IMPORTANT]
-> ts-node is required to run typescript files in node environment and for the nodemon
-> to work with typescript files.
+> `ts-node` is required to run **typescript** files in **node** **environment** and for the `nodemon`
+> to work with **typescript** files.
 > add the `.env` file
 
 4. Create a `server` directory in the root of the project
