@@ -360,4 +360,77 @@ npm run dev
 
 ## Ready to build the project (frontend and backend)
 
+1. Add the following scripts in the `pakage.json` file in the backend/root directory
+
+```json
+"scripts": {
+    "dev": "nodemon server/index.ts",
+    "build": "cd frontend && npm run build && cd .. && npx tsc",
+    "start": "node build/index.js"
+  },
+```
+
+2. Update the `server/index.ts` file in the backend directory
+
+```typescript
+import express from 'express';
+import type { Request, Response } from 'express';
+import dotenv from 'dotenv';
+import path from "path"
+
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// import.meta meta-property is only allowed when the --module option is es2020, es2022, esnext, system, node16, or nodenext
+// const __filename = fileURLToPath(import.meta.url)
+// const __dirname = path.dirname(__filename)
+
+// middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+app.get('/health-check', (req: Request, res: Response) => {
+    res.status(200).json({ message: 'Hello World!' });
+});
+
+// routes
+app.use('/api/v1', MainRoute);
+
+// serve the frontend
+app.get('*', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+3. if your `--module option` is `es2020, es2022, esnext, system, node16, or nodenext` you can use the following code to get the `__dirname` and `__filename`
+
+```typescript
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+```
+
+> [!IMPORTANT]
+> refer to the [NodeJS-Fullstack-Boilerplate](https://github.com/kavinda-100/NodeJS-Fullstack-Boilerplate) for the complete code
+
+4. Run the build process
+
+```bash
+npm run build
+```
+
+5. Run the production server
+
+```bash
+npm run start
+```
+
+6. type `localhost:5000` in the browser to view the application
+7. you can view the users by typing `localhost:5000/api/v1/user/all` in the browser this makes sure the backend is working
+
 
