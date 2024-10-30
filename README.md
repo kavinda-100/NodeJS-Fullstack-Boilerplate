@@ -46,12 +46,14 @@ npm install express zod dotenv uuid
 ```bash
 npm install -D typescript ts-node nodemon @types/express @types/node
 ```
->[Important]
-> ts-node is required to run typescript files in node environment and for the nodemon to work with typescript files.
-> add the `.env` file 
+
+> [!IMPORTANT]
+> ts-node is required to run typescript files in node environment and for the nodemon
+> to work with typescript files.
+> add the `.env` file
 
 4. Create a `server` directory in the root of the project
-5. Initialize the project with typescript
+5. Initialize the project with typescript `tsconfig.json` file
 
 ```bash
 npx tsc --init
@@ -95,7 +97,7 @@ npx tsc --init
 
 > The `shared` directory is used to store shared functions and types like `zod schemas` and `types` so that we can use them with the frontend without code duplication.
 
-9. Create an `index.ts` file in the `server` directory
+9. Create an `index.ts` file in the `server` directory and add the following code
 
 ```typescript
 import express from 'express';
