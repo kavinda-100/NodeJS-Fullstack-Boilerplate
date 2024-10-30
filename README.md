@@ -261,6 +261,96 @@ npm run dev
 
 6. type `localhost:5173` in the browser to view the application
 
+## Add a proxy to the frontend
 
+1. Add the following code to the `vite.config.ts` file in the frontend directory
+
+```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@shared': path.resolve(__dirname, '../server/shared')
+    }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000', // backend server URL
+      }
+    }
+  }
+});
+```
+
+> The proxy is used to avoid `CORS` issues when making requests from the frontend to the backend.
+
+## Add a route to the backend
+
+1. add the following code to the `frontend/src/App.tsx` file
+
+```typescript
+import { useEffect, useState } from 'react';
+import {UserType} from "@shared/types" // import the types from the shared directory in the backend
+
+function App() {
+  const [users, setUsers] = useState<UserType[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
+  
+  const getUsers = async () => {
+        try {
+            setLoading(true)
+            const response = await fetch("/api/v1/user/all")
+            const data = await response.json()
+            setUsers(data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+  useEffect(() => {
+    getUsers()
+  }, []);
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-center">Users</h1>
+      {loading && <p>Loading...</p>}
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-3 p-2">
+        {!loading && users.map((user) => (
+        <div key={user.id} className="border border-gray-300 p-2 rounded-md shadow-md">
+          <p>{user.name}</p>
+          <p>{user.email}</p>
+          <p>{user.createdAt}</p>
+          <p>{user.updatedAt}</p>
+        </div>
+        ))}
+      </section>
+    </div>
+  );
+}
+```
+
+> The `UserType` is imported from the shared directory in the backend
+> The `UserType` is used to type the `users` state in the frontend
+
+2. run the development server in the frontend directory
+
+```bash
+npm run dev
+/** make sure the backend server is running */
+```
+
+> Now you can view the users in the frontend by typing `localhost:5173` in the browser
+
+## Ready to build the project (frontend and backend)
 
 
