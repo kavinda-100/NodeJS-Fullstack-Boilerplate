@@ -124,3 +124,143 @@ npm run dev
 
 11. you should see `Server running on port 5000` in the console
 
+
+## Frontend Setup
+
+1. Run the following command in the root directory to create a React app
+
+```bash
+npx create-vite@latest frontend
+```
+
+2. cd into the `frontend` directory and run `npm install` to install the dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+3. Install the `tailwindcss and postcss dependencies`
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+4. Add the paths to all of your template files in your `tailwind.config.js` file.
+
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+}
+```
+
+5. Add the `@tailwind directives` for each of Tailwind’s layers to your `./src/index.css` file.
+    
+ ```css
+    @tailwind base; 
+    @tailwind components;
+    @tailwind utilities;
+ ```
+
+6. Start using **Tailwind’s utility classes** to style your content. In `App.tsx` file
+
+```tsx
+export default function App() {
+  return (
+    <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+  )
+}
+```
+
+7. Run your build process with npm run dev.
+
+```bash 
+npm run dev
+```
+
+### Configure the frontend to work with the backend E.g. `shared directory`
+
+1. Edit `tsconfig.json` file in the frontend directory
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@shared/*": ["../server/shared/*"]
+    }
+  }
+}
+```
+
+2. Edit `tsconfig.app.json` file in the frontend directory
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@shared/*": ["../server/shared/*"]
+    }
+  }
+}
+```
+
+3. Add the following code to the `vite.config.ts` file in the frontend directory
+
+```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@shared': path.resolve(__dirname, '../server/shared')
+    }
+  }
+});
+```
+
+4. Install this `DevDependency` in the frontend directory (so you can import "path" without an error)
+
+```bash
+npm install -D @types/node
+```
+
+> Now you can import shared functions and types from the backend to the frontend without code duplication.
+
+
+```typescript
+// frontend/src/App.tsx
+import { someFunction } from '@shared/someFunction';
+```
+> from the backend to the frontend like above
+
+5. Run the development server
+
+```bash
+npm run dev
+```
+
+6. type `localhost:5173` in the browser to view the application
+
+
+
+
