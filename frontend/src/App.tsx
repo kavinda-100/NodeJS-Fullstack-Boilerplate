@@ -1,34 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {UserType} from "@shared/types"
 
 function App() {
-  const [count, setCount] = useState(0)
+
+    const user: UserType = {
+        id: "1",
+        name: "John",
+        email: "john@gmail.com",
+        createdAt: "2021-09-01",
+        updatedAt: "2021-09-01",
+    }
+    console.log(user)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+   <main className="max-w-[1400px] mx-auto p-2">
+    <h1 className="text-violet-500 text-2xl">React Typescript</h1>
+    <p>{user.name}</p>
+    <p>{user.email}</p>
+    <p>{user.createdAt}</p>
+    <p>{user.updatedAt}</p>
+   </main>
   )
 }
 
