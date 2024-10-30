@@ -210,11 +210,11 @@ npm run dev
 }
 ```
 
-2. Edit `tsconfig.app.json` file in the frontend directory
+2. Edit `tsconfig.app.json` file in the frontend directory and put the below code Inside the `compilerOptions`
 
 ```json
 {
-  /** Inside the compilerOptions */
+   
   "baseUrl": "./",
   "paths": {
     "@/*": ["src/*"],
